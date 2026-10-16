@@ -13,42 +13,42 @@
         .widget {
             position: absolute;
             top: 0; left: 0;
-            width: 100%; height: 200px;
+            width: 100%; height: 140px;
             background: rgba(0, 0, 0, 0.8);
             overflow: hidden;
         }
         .label {
             position: absolute;
             top: 0; left: 0;
-            width: 400px; height: 200px;
+            width: 280px; height: 140px;
             background: #ffcc00;
             color: #000;
-            font-size: 80px;
+            font-size: 52px;
             font-weight: 900;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10;
-            letter-spacing: 5px;
+            letter-spacing: 3px;
         }
         .ticker-area {
             position: absolute;
-            top: 0; left: 400px; right: 0;
-            height: 200px;
+            top: 0; left: 280px; right: 0;
+            height: 140px;
             overflow: hidden;
             z-index: 5;
         }
         .ticker {
             position: absolute;
             top: 0; left: 100%;
-            height: 200px;
-            line-height: 200px;
+            height: 140px;
+            line-height: 140px;
             white-space: nowrap;
         }
         .item {
             display: inline-block;
-            padding: 0 60px;
-            font-size: 72px;
+            padding: 0 50px;
+            font-size: 48px;
             color: #ffffff;
             font-weight: 700;
             vertical-align: middle;
@@ -56,10 +56,10 @@
         .item::before {
             content: '● ';
             color: #ffcc00;
-            font-size: 36px;
+            font-size: 24px;
         }
-        .source { color: #ffcc00; font-weight: 700; margin-right: 15px; font-size: 64px; }
-        .time { color: rgba(255,255,255,0.7); font-size: 56px; margin-left: 20px; }
+        .source { color: #ffcc00; font-weight: 700; margin-right: 12px; font-size: 44px; }
+        .time { color: rgba(255,255,255,0.7); font-size: 38px; margin-left: 15px; }
     </style>
 </head>
 <body>
@@ -72,7 +72,7 @@
         </div>
     </div>
     <script>
-        const API_KEY = '6a2a661367064806b77294e205e71f28';
+        const API_KEY = '4c5d9c7e414a4d90b5ddc94280b7a78d';
         const ticker = document.getElementById('ticker');
         const tickerArea = document.querySelector('.ticker-area');
         const SPEED = 80;
