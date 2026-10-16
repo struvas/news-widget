@@ -4,33 +4,23 @@
     <meta charset="UTF-8">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         html, body { 
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             background: transparent;
             font-family: Arial, sans-serif; 
             overflow: hidden;
         }
-
-        /* Ограничиваем высоту виджета */
         .widget {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
+            top: 0; left: 0;
+            width: 100%; height: 100px;
             background: rgba(0, 0, 0, 0.75);
             overflow: hidden;
         }
-
-        /* Плашка НОВОСТИ */
         .label {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 220px;
-            height: 100px;
+            top: 0; left: 0;
+            width: 220px; height: 100px;
             background: #ffcc00;
             color: #000;
             font-size: 34px;
@@ -41,29 +31,20 @@
             z-index: 10;
             letter-spacing: 3px;
         }
-
-        /* Область бегущей строки */
         .ticker-area {
             position: absolute;
-            top: 0;
-            left: 220px;
-            right: 0;
+            top: 0; left: 220px; right: 0;
             height: 100px;
             overflow: hidden;
             z-index: 5;
         }
-
-        /* Лента новостей — двигается через JS */
         .ticker {
             position: absolute;
-            top: 0;
-            left: 100%;
+            top: 0; left: 100%;
             height: 100px;
             line-height: 100px;
             white-space: nowrap;
-            will-change: left;
         }
-
         .item {
             display: inline-block;
             padding: 0 40px;
@@ -72,28 +53,16 @@
             font-weight: 600;
             vertical-align: middle;
         }
-
         .item::before {
             content: '● ';
             color: #ffcc00;
             font-size: 16px;
         }
-
-        .source {
-            color: #ffcc00;
-            font-weight: 700;
-            margin-right: 10px;
-        }
-
-        .time {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 22px;
-            margin-left: 12px;
-        }
+        .source { color: #ffcc00; font-weight: 700; margin-right: 10px; }
+        .time { color: rgba(255,255,255,0.6); font-size: 22px; margin-left: 12px; }
     </style>
 </head>
 <body>
-
     <div class="widget">
         <div class="label">НОВОСТИ</div>
         <div class="ticker-area">
@@ -102,21 +71,13 @@
             </div>
         </div>
     </div>
-
     <script>
         const API_KEY = '4c5d9c7e414a4d90b5ddc94280b7a78d';
         const ticker = document.getElementById('ticker');
         const tickerArea = document.querySelector('.ticker-area');
-        
-        // Скорость прокрутки (пикселей в секунду)
         const SPEED = 80;
-        let currentPos = 0;
-        let tickerWidth = 0;
-        let areaWidth = 0;
-        let lastTime = 0;
-        let isRunning = false;
+        let currentPos = 0, tickerWidth = 0, areaWidth = 0, lastTime = 0, isRunning = false;
 
-        // Тестовые новости — показываются, если API не отвечает
         const TEST_NEWS = [
             'В Якутске открылся новый автосалон ASIAMOTORS',
             'Скидки на автомобили до 30% только до конца месяца',
@@ -146,7 +107,6 @@
                     html += '</div>';
                 }
             });
-            // Дублируем для бесшовности
             ticker.innerHTML = html + html;
         }
 
@@ -164,14 +124,8 @@
         function animate(time) {
             const delta = (time - lastTime) / 1000;
             lastTime = time;
-            
             currentPos -= SPEED * delta;
-            
-            // Когда лента полностью прошла — сбрасываем (половина ширины = один цикл)
-            if (currentPos <= -tickerWidth / 2) {
-                currentPos = areaWidth;
-            }
-            
+            if (currentPos <= -tickerWidth / 2) currentPos = areaWidth;
             ticker.style.left = currentPos + 'px';
             requestAnimationFrame(animate);
         }
@@ -180,32 +134,22 @@
             try {
                 const url = `https://api.worldnewsapi.com/search-news?language=ru&sort-by=date&api-key=${API_KEY}`;
                 const response = await fetch(url, { cache: 'no-store' });
-                
                 if (!response.ok) throw new Error('HTTP ' + response.status);
-                
                 const data = await response.json();
                 const newsList = data.news || [];
-                
                 if (newsList.length > 0) {
                     buildTicker(newsList.slice(0, 15));
                 } else {
                     buildTicker(TEST_NEWS);
                 }
-                
-                // Запускаем анимацию после загрузки контента
                 setTimeout(startAnimation, 100);
-                
             } catch (error) {
-                console.log('API недоступен, используем тестовые новости');
                 buildTicker(TEST_NEWS);
                 setTimeout(startAnimation, 100);
             }
         }
 
-        // Загружаем новости
         loadNews();
-        
-        // Обновляем каждые 15 минут
         setInterval(loadNews, 900000);
     </script>
 </body>
